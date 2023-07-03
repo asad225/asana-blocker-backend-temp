@@ -1,0 +1,73 @@
+<div class="goals-automatic-wrapper">
+    <div class="blockquote">
+        The 'Automatic' trigger option will reward users for spending time on good websites.
+    </div>
+</div>
+<mat-divider></mat-divider>
+<div class="action-difficulty-level">
+    <h4>Choose action difficulty level</h4>
+    <div>
+        <mat-radio-group aria-label="Select an option" [value]="actionLevelControl.value" [formControl]="actionLevelControl" (change)="handleActionLevelChange()">
+            <mat-radio-button value="easy">Easy</mat-radio-button>
+            <mat-radio-button value="medium">Medium</mat-radio-button>
+            <mat-radio-button value="hard">Hard</mat-radio-button>
+        </mat-radio-group>
+    </div>
+</div>
+<mat-divider></mat-divider>
+
+<div class="add-time">
+  <label>Add Time</label>
+  <input value="00:00:00" type="time" step="1" [formControl]="spendingTime" class="input_spendTime" (change)="time($event)">
+</div>
+
+<div class="add-website">
+    <mat-form-field class="website-input">
+        <mat-label>Add a website</mat-label>
+        <input #websiteInput matInput placeholder="Ex. Google.com" [formControl]="input" (keyup.enter)="add(input.value || '')">
+    </mat-form-field>
+
+    <button class="add-btn" (click)="add(input.value || '')" mat-raised-button color="primary">
+      <mat-icon>add</mat-icon>
+    </button>
+</div>
+<div class="websites-list">
+    <!-- <table mat-table [dataSource]="dd" class="mat-elevation-z8"> -->
+        <!-- <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef class="name-row"> Name </th>
+          <td mat-cell *matCellDef="let element" [class.wild-site]="element.name === '*'"> {{element.name}} </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Actions </th>
+          <td mat-cell *matCellDef="let element; let i = index" [class.wild-site-actions]="element.name === '*'"> <button (click)="remove(i)" mat-button color="warn">
+            <mat-icon class="delete-btn">
+              delete
+            </mat-icon>
+          </button> </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" [class.wild-site]="row.name === '*'"></tr>
+      </table> -->
+     <!-- <div *ngFor ="let sites of _getGoalSiteList">{{sites.site}}</div> -->
+
+
+     <table>
+      <tr>
+        <th>Name</th>
+        <th>Actions</th>
+      </tr>
+      <tr *ngFor ="let sites of _getGoalSiteList">
+        <td>{{sites.site}}</td>
+         <td> 
+          <button mat-button color="warn" (click)="deleteSite(sites._id)">
+          <mat-icon class="delete-btn">
+          delete
+        </mat-icon>
+      </button>
+      </td>
+      </tr>
+    </table>
+    
+</div>

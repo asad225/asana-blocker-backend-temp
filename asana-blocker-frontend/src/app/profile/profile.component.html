@@ -1,0 +1,50 @@
+<div *ngFor="let item of userData">
+
+    <mat-grid-list cols="1" rowHeight="2:1">
+        <mat-grid-tile>
+            <div class="imagediv">
+                <h3 class="profile_text">Profile</h3>
+                <div>
+                    <img src="../../assets/images/userimg.png" class="userProfile" alt="">
+                </div>
+                <h3 class="name_text">{{ item.firstName }} {{ item.lastName }}</h3>
+                <p class="designation">(Designation)</p>
+            </div>
+        </mat-grid-tile>
+    </mat-grid-list>
+
+    <div class="profileEdit">
+        <div class="iconandText">
+            <mat-icon> edit_location</mat-icon>
+            <span>{{item.location}}</span>
+        </div>
+        <div class="iconandText">
+            <mat-icon> email</mat-icon>
+            <span>{{item.email}}</span>
+        </div>
+        <div class="iconandText">
+            <mat-icon> local_phone</mat-icon>
+            <span>{{item.phoneNumber}}</span>
+        </div>
+
+        <button mat-raised-button class="edit_btn" color="primary" routerLink="/editprofile">Edit Profile</button>
+
+
+        <!-- <div class="photoDiv">
+            <h4 class="photohead">Photos</h4>
+            <hr style="margin-bottom: 5px;"/>
+                <div class="iamge_gallery">
+                    <img src="../../assets/images/userprofile.jpg" class="prociel_gallery" alt="">
+                    <img src="../../assets/images/userprofile.jpg" class="prociel_gallery" alt="">
+                    <img src="../../assets/images/userprofile.jpg" class="prociel_gallery" alt="">
+                    <img src="../../assets/images/userprofile.jpg" class="prociel_gallery" alt="">
+                    <img src="../../assets/images/userprofile.jpg" class="prociel_gallery" alt="">
+                    <img src="../../assets/images/userprofile.jpg" class="prociel_gallery" alt="">
+
+                </div>
+        </div> -->
+
+    </div>
+
+
+</div>

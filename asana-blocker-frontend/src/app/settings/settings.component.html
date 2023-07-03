@@ -1,0 +1,68 @@
+<mat-card>
+    <mat-card-content>
+        <div class="mb-3">
+            <h3 class="mat-subtitle-1">Reward activation method</h3>
+        </div>
+        <div>
+            <mat-form-field>
+                <mat-label>Method</mat-label>
+                <mat-select [formControl]="rewardMethod">
+                  <mat-option *ngFor="let method of rewardMethods" [value]="method.id">
+                    {{method.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+        </div>
+        <div>
+            <button class="rewards-save" mat-raised-button color="primary" (click)="saveRewardMethodChange()">Save</button>
+        </div>
+    </mat-card-content>
+</mat-card>
+
+<mat-card>
+    <mat-card-content>
+        <div class="mb-3">
+            <h3 class="mat-subtitle-1">Random text unblock</h3>
+            <mat-slide-toggle [formControl]="randomTextOnOff">On/off</mat-slide-toggle>
+        </div>
+        <div>
+            <mat-form-field class="random-text-length-field">
+                <mat-label>Random text length</mat-label>
+                <input [readonly]="!randomTextOnOff.value" [formControl]="randomTextStringLength" matInput placeholder="Ex. 10">
+            </mat-form-field>
+            <mat-error *ngIf="randomTextStringLength.invalid && randomTextStringLength.touched && randomTextOnOff.value">
+                Random text length is required
+            </mat-error>
+            <div class="random-text-example mb-3" *ngIf="randomTextStringLength.value">
+                Example of string: 
+                <span class="example-string">{{randomTextOfLength}}</span>
+            </div>
+        </div>
+        <div>
+            <button mat-raised-button color="primary" (click)="saveRandomText()">Save</button>
+        </div>
+    </mat-card-content>
+</mat-card>
+
+<mat-card>
+    <mat-card-content>
+        <div class="mb-3">
+            <h3 class="mat-subtitle-1">Asana task check interval in minutes</h3>
+        </div>
+        <div>
+            <mat-form-field class="random-text-length-field">
+                <mat-label>Interval in minutes</mat-label>
+                <input [formControl]="asanaTaskCheck" matInput placeholder="Ex. 0.02">
+            </mat-form-field>
+            <mat-error *ngIf="asanaTaskCheck.invalid && asanaTaskCheck.touched">
+                Interval in minutes is required
+            </mat-error>
+            <div class="random-text-example mb-3">
+                Note: Saved time interval will take an effect only after the next start of the blocking
+            </div>
+        </div>
+        <div>
+            <button mat-raised-button color="primary" (click)="saveAsanaTaskInterval()">Save</button>
+        </div>
+    </mat-card-content>
+</mat-card>

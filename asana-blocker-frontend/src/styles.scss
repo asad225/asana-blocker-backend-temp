@@ -1,0 +1,85 @@
+// Colors
+$bg-color: #fff;
+$dot-color: hsl(256,33,70);
+
+// Dimensions
+$dot-size: 1px;
+$dot-space: 22px;
+
+* {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    box-sizing: border-box;
+    font-size: 12px;
+}
+
+body {
+    width: 405px;
+    height: 600px;
+    color: #003c70;
+}
+
+body,
+mat-stepper {
+    background:
+		linear-gradient(90deg, $bg-color ($dot-space - $dot-size), transparent 1%) center,
+		linear-gradient($bg-color ($dot-space - $dot-size), transparent 1%) center,
+		$dot-color !important;
+	background-size: $dot-space $dot-space !important;
+}
+
+h1 {
+    font-size: 16px;
+}
+
+.mt-1 {
+    margin-top: 5px;
+}
+.mt-2 {
+    margin-top: 10px !important;
+}
+.mt-3 {
+    margin-top: 15px !important;
+}
+.ml-3 {
+    margin-left: 15px !important;
+}
+.mr-3 {
+    margin-right: 15px !important;
+}
+.mb-0 {
+    margin-bottom: 0 !important;
+}
+.mb-3 {
+    margin-bottom: 15px !important;
+}
+
+.p3 {
+    padding: 15px;
+}
+
+.mat-divider.mat-divider-inset {
+    margin-left: 35px;
+}
+
+.title-icon {
+    transform: translateY(4px);
+}
+
+.ellipsis {
+  text-overflow: ellipsis !important;
+  white-space: nowrap;
+  overflow: hidden !important;
+}
+
+.cdk-global-scrollblock {
+  position: relative !important;
+}
+
+.blockquote {
+    border-left: 5px solid #9e9e9e;
+    background: #0000000d;
+    padding-left: 5px;
+}

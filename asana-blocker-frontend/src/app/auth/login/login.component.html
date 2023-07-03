@@ -1,0 +1,28 @@
+<div class="loginForm">
+  <div class="MainForm_div">
+    <h1 class="LoginHead">Login Form</h1>
+    <form class="example-form" (ngSubmit)="submitForm()">
+      <mat-form-field class="div_form">
+        <mat-label>Enter Your Email</mat-label>
+        <input type="email" matInput placeholder="your email" [(ngModel)]="formData.email" name="email" />
+      </mat-form-field>
+
+      <mat-form-field class="div_form">
+        <mat-label>Enter Your Password</mat-label>
+        <input type="password" matInput placeholder="your password" [(ngModel)]="formData.password" name="password" />
+      </mat-form-field>
+    
+      <div>
+        <p class="Forget_dat">Forget Password ?</p>
+      </div>
+    
+      <div>
+        <button mat-raised-button class="LoginBtn" color="primary" type="submit">Login</button>
+      </div>
+    
+      <div>
+        <p class="Forget_dat2" routerLink="/signup">Create an account ?</p>
+      </div>
+    </form>
+  </div>
+</div>

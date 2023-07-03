@@ -1,0 +1,58 @@
+<div class="main_editProfile">
+  <div class="imagediv2">
+    <div class="" style="display: flex; width: 100%">
+      <div class="aroowmain">
+        <mat-icon class="back_icon" routerLink="/profile">arrow_back</mat-icon>
+      </div>
+      <div class="Header_backIcon">
+        <h3 class="profile_text2">Edit Profile</h3>
+      </div>
+    </div>
+    <div>
+        <div style="position: relative;">
+            <img src="../../assets/images/userimg.png" class="userProfile2" alt="" />
+            <div class="file-input">
+                <input type="file" id="my-file" class="input-file" (change)="onFileSelected($event)">
+                <label for="my-file" class="file-label"><mat-icon class="camicon">camera_alt</mat-icon></label>
+                <span class="file-name">{{ selectedFileName }}</span>
+              </div>
+        </div>
+    </div>
+  </div>
+  <div class="" style="padding: 10px;"> 
+    <form class="example-form">
+      <div class="Form_editDta">
+        <label for="">Location</label>
+        <input
+          type="text"
+          class="FieldInput"
+          placeholder="Enter Your Location"
+          [(ngModel)]="location"
+        />
+      </div>
+      <div class="Form_editDta">
+        <label for="">Phone Number</label>
+        <input
+          type="text"
+          class="FieldInput"
+          placeholder="Enter Your Phone Number"
+          [(ngModel)]="phoneNumber"
+        />
+      </div>
+      <div class="Form_editDta">
+        <label for="">Password</label>
+        <input
+          type="password"
+          class="FieldInput"
+          placeholder="Enter Your Password"
+          [(ngModel)]="password"
+        />
+      </div>
+      <div class="Form_editDta">
+        <button mat-raised-button style="width: 100%; margin-top: 10px;" color="primary" (click)="saveChanges()">Save Changes</button>
+      </div>
+
+
+    </form>
+  </div>
+</div>

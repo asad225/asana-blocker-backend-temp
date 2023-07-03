@@ -1,0 +1,27 @@
+:host {
+    .type-in-title {
+        font-size: 18px;
+    }
+
+    .string-example {
+        font-size: 16px;
+        font-weight: 800;
+        color: #000;
+        margin-bottom: 5px;
+        word-break: break-word;
+    }
+
+    mat-form-field {
+        width: 100%;
+    }
+    
+    .actions {
+        padding: 10px;
+    }
+}
+
+::ng-deep {
+    .mat-mdc-form-field-hint-wrapper, .mat-mdc-form-field-error-wrapper {
+        padding: 0;
+    }
+}

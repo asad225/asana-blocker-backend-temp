@@ -1,0 +1,78 @@
+:host {
+    .goals-automatic-wrapper {
+        margin: 10px;
+    }
+
+    .add-website {
+        position: relative;
+    }
+
+    .add-time{
+        padding: 15px;
+        color: #666666;
+    }
+
+    .timeError{
+       color: red;
+    }
+    .input_spendTime{
+        margin-left: 5px;    
+    }
+
+    .delete-btn{
+        text-align: center;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 5px;
+    }
+      
+    tr {
+        border-bottom: 1px solid #ddd;
+    }
+
+    td{
+        text-align: center;
+    }
+    
+    .websites-list {
+        height: 450px;
+        overflow: auto;
+        background-color: #fff;
+    }
+
+    .website-input {
+        width: 100%;
+        input {
+            padding-right: 40px;
+        }
+    }
+
+    .add-btn {
+        width: 40px;
+        height: 30px;
+        padding: 0;
+        margin-bottom: 15px;
+        margin-left: 15px;
+        min-width: unset;
+        position: absolute;
+        right: 15px;
+        top: 10px;
+        transition: all .2s ease;
+        .mat-icon {
+            margin-right: 0;
+            margin-left: 0;
+        }
+    }
+
+    h4 {
+        margin: 15px 0 0 10px;
+    }
+
+    .action-difficulty-level {
+        margin: 15px 0;
+    }
+}

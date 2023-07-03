@@ -1,0 +1,65 @@
+
+
+.loginForm{
+    border: 1px solid rgb(5, 48, 168);
+    width: 100%;
+    height: 100%;
+    display: block;
+    overflow: hidden;
+    padding: 20px;
+    background-color: rgba(5, 49, 168, 0.651);
+    position: relative;
+    &::before{
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -25%;
+        width: 100%;
+        transform: rotate(45deg);
+        height: 100%;
+        z-index: -3;
+        background-color: rgba(0, 121, 101, 0.712);
+        
+    }
+    .MainForm_div{
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    .div_form{
+        width: 100%;
+    }
+    .LoginHead{
+        text-align: center;
+        font-weight: 500;
+        color: white;
+        z-index: 1;
+        text-shadow: 1px 1px 2px gray;
+    }
+    .Forget_dat{
+        color: white;
+        font-size: 16px;
+        text-decoration: underline;
+        &:hover{
+            color: rgb(4, 30, 100);
+            cursor: pointer;
+        }
+    }
+    .Forget_dat2{
+        color: white;
+        font-size: 16px;
+        &:hover{
+            color: rgb(4, 30, 100);
+            cursor: pointer;
+            text-decoration: underline;
+        }
+    }
+    .LoginBtn{
+        width: 100%;
+        height: 45px;
+        display: block;
+        margin: 10px auto;
+    }
+    
+}

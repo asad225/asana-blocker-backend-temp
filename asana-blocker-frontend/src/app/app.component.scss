@@ -1,0 +1,31 @@
+:host {
+    height: 600px;
+    
+    mat-nav-list {
+        width: 300px;
+        a{
+            border-bottom: 1px solid rgba(226, 225, 225, 0.664);
+        }
+        .title-icon{
+            color: #4050b5;
+            margin-right: 10px;
+        }
+    }
+}
+
+::ng-deep {
+    .mat-mdc-list-item-unscoped-content {
+        display: flex;
+        align-items: center;
+
+        mat-icon {
+            &:last-child {margin-left: auto; margin-right: 0;}
+            &:first-child {margin-left: 0; margin-right: 5px; margin-bottom: 10px;}
+        }
+    }
+
+    .submenu {
+        border-left: #4050b5 28px solid;
+        background-color: #0000000a;
+    }
+}

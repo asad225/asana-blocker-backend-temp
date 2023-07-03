@@ -1,0 +1,93 @@
+<div class="add-block">
+    <mat-form-field class="website-input">
+        <mat-label>Add a website</mat-label>
+        <input #websiteInput matInput placeholder="Ex. Google.com" [formControl]="input" (keyup.enter)="add(input.value || '')">
+    </mat-form-field>
+
+    <button class="add-btn" [class.blocking-tab]="selectedTab === 'blocking'" (click)="add(input.value || '')" mat-raised-button color="primary">
+      <mat-icon>add</mat-icon>
+    </button>
+    <button class="wild-add-btn" *ngIf="selectedTab === 'blocking'" mat-raised-button color="primary" [matMenuTriggerFor]="menu">
+      <mat-icon>keyboard_arrow_down</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>
+        <mat-checkbox class="wild-check" *ngIf="selectedTab === 'blocking'" [formControl]="wildSite" (change)="onChangeBlockSite($event)">
+          Block all websites
+        </mat-checkbox>
+      </button>
+    </mat-menu>
+</div>
+<mat-tab-group (selectedTabChange)="handleTabSelect($event, websiteInput)">
+  <mat-tab label="Blocking"></mat-tab>
+  <mat-tab label="Exceptions" *ngIf="expectionButton"></mat-tab>
+</mat-tab-group>
+<div class="websites-list">
+
+    <!-- <table mat-table [dataSource]="dd" class="mat-elevation-z8">
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef class="name-row"> Name </th>
+          <td mat-cell *matCellDef="let element" [class.wild-site]="element.name === '*'"> {{element.name}} </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Actions </th>
+          <td mat-cell *matCellDef="let element; let i = index" [class.wild-site-actions]="element.name === '*'"> <button (click)="remove(i)" mat-button color="warn">
+            <mat-icon class="delete-btn">
+              delete
+            </mat-icon>
+          </button> </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" [class.wild-site]="row.name === '*'" [class.not-wild-but-exist]="wildExists && selectedTab === 'blocking' && row.name !== '*'"></tr>
+      </table> -->
+
+
+     <table>
+      <tr>
+        <th>Name</th>
+        <th>Actions</th>
+      </tr>
+      <tr *ngFor="let sites of _getBlockSiteList">
+        <td>{{sites.site}}</td>
+         <td> 
+          <button mat-button color="warn" (click)="deleteBlockSite(sites._id)">
+          <mat-icon class="delete-btn">
+          delete
+        </mat-icon>
+      </button>
+      </td>
+      </tr>
+    </table>
+</div>
+<mat-divider></mat-divider>
+
+<mat-form-field class="interval-input" *ngIf="rewardMethod === 'manual'">
+  <mat-label>Reward time (minutes)</mat-label>
+  <input matInput placeholder="Ex. 10" [formControl]="interval">
+  <mat-error *ngIf="interval.errors && interval.errors['required']">
+    Reward time is required
+  </mat-error>
+</mat-form-field>
+
+<div class="reward-timer" *ngIf="isBlocking">
+  <div class="reward-timer-label">Reward time:</div>
+  <div class="time-indicator">
+    <div class="time-indicator__time">{{getHours()}}</div>
+    <div class="time-indicator__label">HOURS</div>
+  </div>
+  <div class="time-indicator">
+    <div class="time-indicator__time">{{getMinutes()}}</div>
+    <div class="time-indicator__label">MINUTES</div>
+  </div>
+  <div class="time-indicator">
+    <div class="time-indicator__time">{{getSeconds()}}</div>
+    <div class="time-indicator__label">SECONDS</div>
+  </div>
+</div>
+
+<ab-continue-btn *ngIf="!isBlocking" class="continue-btn" label="Start blocking" (click)="start()"></ab-continue-btn>
+<button *ngIf="isBlocking" mat-raised-button extended color="warn" class="stop-blocking-btn" (click)="stop(); llog()">
+  <mat-icon class="stop-icon">stop</mat-icon>
+</button>

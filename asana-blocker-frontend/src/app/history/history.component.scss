@@ -1,0 +1,30 @@
+:host {
+    .history-title-wrap {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .history-list {
+        padding: 0px 10px;
+        td {
+            font-size: 12px;
+        }
+
+        .action-row {
+            width: 300px;
+        }
+
+        .desc-td {
+            max-width: 150px;
+        }
+
+        .view-website {
+            cursor: pointer;
+            color: #0076f0;
+            text-decoration: underline;
+            &:hover {
+                color: #004c9d;
+            }
+        }
+    }
+}

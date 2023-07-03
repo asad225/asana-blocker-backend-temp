@@ -1,0 +1,7 @@
+<div mat-dialog-content>
+    <h2>List of websites</h2>
+    <div *ngFor="let website of data.arr" style="font-size: 12px; color: #000;">{{website.name}}</div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close (click)="onNoClick()" cdkFocusInitial>Close</button>
+</div>

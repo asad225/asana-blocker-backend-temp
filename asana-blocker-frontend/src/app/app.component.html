@@ -1,0 +1,39 @@
+
+
+<mat-toolbar color="primary" >
+    <mat-toolbar-row>
+        <button mat-icon-button (click)="sidenav.toggle()">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <h1 class="mat-h2 mb-0">{{title}}</h1>
+    </mat-toolbar-row>
+</mat-toolbar>
+<mat-sidenav-container class="main-burger-menu">
+    <mat-sidenav #sidenav opened="false" mode="over">
+        <mat-nav-list>
+            <a mat-list-item (click)="showGoalsSubMenu = !showGoalsSubMenu" class="goals-menu-item">
+                <mat-icon class="title-icon">check_circle</mat-icon>
+                Goals
+                <mat-icon mat-list-icon *ngIf="showGoalsSubMenu">expand_less</mat-icon>
+                <mat-icon mat-list-icon *ngIf="!showGoalsSubMenu">expand_more</mat-icon>
+            </a>
+            <div *ngIf="showGoalsSubMenu" class="submenu">
+              <a mat-list-item class="submenu-item" routerLink="/goals-automatic">
+                <span mat-line>Automatic</span>
+              </a>
+              <a mat-list-item class="submenu-item" routerLink="/goals-manual">
+                <span mat-line>Manual</span>
+              </a>
+            </div>
+            <a mat-list-item [routerLink]="'/blocking'"><mat-icon class="title-icon">block</mat-icon> Blockings </a>
+            <a mat-list-item [routerLink]="'/history'"><mat-icon class="title-icon">history</mat-icon> History </a>
+            <a mat-list-item [routerLink]="'/settings'"><mat-icon class="title-icon">settings</mat-icon> Settings </a>
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <div style="height: 91vh;">
+            <router-outlet></router-outlet>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>
+

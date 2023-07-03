@@ -1,0 +1,20 @@
+:host {
+    mat-card {
+        margin: 10px;
+    }
+    mat-form-field{
+        width: 100%;
+    }
+    .random-text-length-field {
+        margin-bottom: 5px;
+    }
+    
+    .example-string {
+        font-weight: 800;
+        word-break: break-word;
+    }
+
+    .rewards-save {
+        margin-top: 15px;
+    }
+}

@@ -1,0 +1,20 @@
+<div mat-dialog-content>
+    <h2 class="type-in-title">TYPE IN the following string to undo the blocking</h2>
+    <div class="string-example">
+        {{randomString}}
+    </div>
+    <mat-form-field class="input-string">
+      <mat-label>Input string</mat-label>
+      <input matInput [formControl]="inputString">
+      <mat-error *ngIf="inputString.errors && inputString.errors['required'] && inputString.touched">
+        Input string is required
+      </mat-error>
+      <mat-error *ngIf="inputString.errors && inputString.errors['notMatching'] && inputString.touched">
+        Input is not matching the given string
+      </mat-error>
+    </mat-form-field>
+</div>
+<div class="actions">
+    <button color="primary" mat-button (click)="save()" cdkFocusInitial>Save</button>
+    <button mat-button mat-dialog-close cdkFocusInitial>Close</button>
+</div>

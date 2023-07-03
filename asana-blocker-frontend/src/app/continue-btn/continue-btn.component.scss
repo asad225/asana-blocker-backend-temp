@@ -1,0 +1,17 @@
+:host {
+    .cont-btn {
+        display: flex;
+        height: 50px;
+        width: 92%;
+        margin: 15px;
+    
+        .cont-label {
+            order: 1;
+        }
+    
+        .arrow-btn {
+            order: 2;
+            margin-left: 10px;
+        }
+    }
+}

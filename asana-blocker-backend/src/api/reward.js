@@ -80,12 +80,19 @@ export const getBlockedSites = async (req, res) => {
 
 //----------------------------------------------------------Add_Goals---------------------------------------------------
 
-export const addGoalOfGoodSites = async (req, res) => {
-  const { domain, total_time_count } = req.body;
 
+
+export const addGoalOfGoodSites = async (req, res) => {
+  const { domain, total_time_count,total_time_spent,is_goal_achieved , spending_time , userId} = req.body;
+  // It will take domain total time count (which is target set by user) and total_time_spent and a bolean field which is for checking
+  // if goal has been achieved
   try {
     const addGoals = new Goals({
+      domain,
       total_time_count,
+      total_time_spent,
+      is_goal_achieved,
+      userId
     });
 
     const result = await addGoals.save();
@@ -93,6 +100,56 @@ export const addGoalOfGoodSites = async (req, res) => {
   } catch (error) {
     console.log(error);
     return res.status(500).json({ msg: "Internal Server Error" });
+  }
+};
+//----------------------------------------------------------Delete_Goals---------------------------------------------------
+
+// its for reseting the goal.It will take goalid and delete that particular goal from goal collections
+export const deleteGoalById = async (req, res) => {
+  const {goalId} = req.body;
+  console.log(goalId)
+  try {
+    const addGoals = await Goals.findByIdAndRemove(goalId)
+
+    if(!addGoals){
+
+      return res.status(404).json({ msg: "Goal not found!" });
+    }
+    return res.json({ msg: "Goal Deleted Successfuly!" });
+
+
+  } catch (error) {
+    
+    return res.status(500).json({ msg: "Internal Server Error" });
+  }
+};
+//----------------------------------------------------------find Goal Completion---------------------------------------------------
+
+
+// it will check the boolean field if goal has been completed
+export const findIsGoalCompleted = async (req, res) => {
+  const {goalId} = req.body;
+  try {
+    const goal= await Goals.findById(goalId)
+    
+    
+    
+    
+    const {is_goal_achieved} = goal
+
+    if(is_goal_achieved){
+      return res.json({msg:'Goal has been achieved'})
+    }else{
+      
+      return res.json({msg:'Goal has not been achieved yet'})
+    }
+
+
+
+
+  } catch (error) {
+    
+    return res.status(500).json({msg: "Internal Server Error" });
   }
 };
 

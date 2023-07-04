@@ -12,7 +12,9 @@ import {
   getProductiveSites,
   getBlockedSites,
   deleteProductiveSite,
-  deleteBlockSite
+  deleteBlockSite,
+  deleteGoalById,
+  findIsGoalCompleted
 
 } from "../api/reward.js";
 import { ValidationErrors } from "../helper/validationMiddleware.js";
@@ -37,6 +39,30 @@ routes.post(
   ],
   ValidationErrors,
   addGoalOfGoodSites
+);
+// ----------------------------deleteGoals-----------------------------------------------------------------------
+routes.delete(
+  "/deleteGoal",
+  [
+    check("goalId")
+      .not()
+      .isEmpty()
+      .withMessage("Please add goal id"),
+  ],
+  ValidationErrors,
+  deleteGoalById
+);
+// ----------------------------Goal Completed?-----------------------------------------------------------------------
+routes.get(
+  "/getGoal",
+  [
+    check("goalId")
+      .not()
+      .isEmpty()
+      .withMessage("Please add goal id"),
+  ],
+  ValidationErrors,
+  findIsGoalCompleted
 );
 /* ---------------------------update goals----------------------------------------------------------------------------
 update get spent time of user and update it to database 

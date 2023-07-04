@@ -74,5 +74,17 @@
 
     .action-difficulty-level {
         margin: 15px 0;
+        display: flex;
+        justify-content: center;
     }
+    .button-container{
+        display: flex;
+        justify-content: space-around;
+        align-items: center ;
+    }
+    .login-btn-style{
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+    
 }

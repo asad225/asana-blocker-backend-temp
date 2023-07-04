@@ -50,12 +50,23 @@ const goalSchema = new mongoose.Schema(
       {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: "domain",
+        ref: "productiveSites",
       },
     ],
+    total_time_count: { type: Number, required: true, default: 0 },
 
-    total_time_count: { type: Number, require: true, default: 0 },
+    total_time_spent: { type: Number, required: true, default: 0 },
+
+    is_goal_achieved: { type: Boolean,default: false },
+    
     spending_time: { type: Number, default: 0 },
+
+
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "users",
+    },
     
   },
   {

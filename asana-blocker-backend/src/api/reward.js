@@ -83,7 +83,7 @@ export const getBlockedSites = async (req, res) => {
 
 
 export const addGoalOfGoodSites = async (req, res) => {
-  const { domain, total_time_count,total_time_spent,is_goal_achieved , spending_time , userId} = req.body;
+  const { domain, total_time_count,total_time_spent,is_goal_achieved , spending_time , userId , difficulty} = req.body;
   // It will take domain total time count (which is target set by user) and total_time_spent and a bolean field which is for checking
   // if goal has been achieved
   try {
@@ -92,7 +92,8 @@ export const addGoalOfGoodSites = async (req, res) => {
       total_time_count,
       total_time_spent,
       is_goal_achieved,
-      userId
+      userId,
+      difficulty
     });
 
     const result = await addGoals.save();

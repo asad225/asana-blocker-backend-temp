@@ -57,6 +57,8 @@ const goalSchema = new mongoose.Schema(
 
     total_time_spent: { type: Number, required: true, default: 0 },
 
+    difficulty: { type: String, required: true, default: 0 },
+
     is_goal_achieved: { type: Boolean,default: false },
     
     spending_time: { type: Number, default: 0 },

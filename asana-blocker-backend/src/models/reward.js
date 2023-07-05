@@ -48,9 +48,8 @@ const goalSchema = new mongoose.Schema(
   {
     domain: [
       {
-        type: mongoose.Schema.Types.ObjectId,
+        type: String,
         required: true,
-        ref: "productiveSites",
       },
     ],
     total_time_count: { type: Number, required: true, default: 0 },

@@ -136,7 +136,7 @@ export const findIsGoalCompleted = async (req, res) => {
     const {is_goal_achieved} = goal
 
     if(is_goal_achieved){
-      return res.json({msg:'Goal has been achieved'})
+      return res.json({goal, msg:'Goal has been achieved'})
     }else{
       
       return res.json({msg:'Goal has not been achieved yet'})
@@ -148,6 +148,43 @@ export const findIsGoalCompleted = async (req, res) => {
   } catch (error) {
     
     return res.status(500).json({msg: "Internal Server Error" });
+  }
+};
+//----------------------------------------------------------find Goal By UserID---------------------------------------------------
+
+
+// it will check the boolean field if goal has been completed
+export const findGoalByUserId = async (req, res) => {
+  const {userId} = req.body;
+  try {
+    const goal= await Goals.find({userId:userId})
+    
+    console.log(goal)
+    
+    
+    
+    const {is_goal_achieved} = goal
+
+    
+
+    if(is_goal_achieved){
+      return res.json({goal , msg:'Goal Found!'})
+      
+    }else{
+      const empty_goal = {
+        domain: null,
+        total_time_count: null,
+        total_time_spent: null,
+        is_goal_achieved: null,
+        userId: null,
+        difficulty: null
+      };
+      
+      return res.json({empty_goal , msg:'Goal Not Found!'})
+    }
+  } catch (error) {
+    
+      return res.status(500).json({msg: "Internal Server Error" });
   }
 };
 

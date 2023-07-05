@@ -14,7 +14,8 @@ import {
   deleteProductiveSite,
   deleteBlockSite,
   deleteGoalById,
-  findIsGoalCompleted
+  findIsGoalCompleted,
+  findGoalByUserId
 
 } from "../api/reward.js";
 import { ValidationErrors } from "../helper/validationMiddleware.js";
@@ -63,6 +64,18 @@ routes.get(
   ],
   ValidationErrors,
   findIsGoalCompleted
+);
+// ----------------------------Goal By UserId-----------------------------------------------------------------------
+routes.get(
+  "/getGoalUserId",
+  [
+    check("userId")
+      .not()
+      .isEmpty()
+      .withMessage("Please add user id"),
+  ],
+  ValidationErrors,
+  findGoalByUserId
 );
 /* ---------------------------update goals----------------------------------------------------------------------------
 update get spent time of user and update it to database 

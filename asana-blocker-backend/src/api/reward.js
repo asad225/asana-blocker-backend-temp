@@ -133,9 +133,6 @@ export const findIsGoalCompleted = async (req, res) => {
   try {
     const goal= await Goals.findById(goalId)
     
-    
-    
-    
     const {is_goal_achieved} = goal
 
     if(is_goal_achieved){

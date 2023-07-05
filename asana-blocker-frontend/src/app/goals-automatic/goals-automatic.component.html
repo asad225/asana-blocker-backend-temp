@@ -5,6 +5,7 @@
       class="LoginBtn login-btn-style"
       color="primary"
       type="submit"
+      (click)="addGoal()"
     >
       Add
     </button>
@@ -25,7 +26,7 @@
 <div class="add-website">
   <mat-form-field class="website-input">
     <mat-label>Add Time</mat-label>
-    <input #websiteInput matInput placeholder="Add Time" />
+    <input [(ngModel)]="total_time_count" matInput placeholder="Add Time" />
   </mat-form-field>
 </div>
 
@@ -43,7 +44,7 @@
 
   <div class="difficulty-container">
       <label for="difficulty">Difficulty:</label>
-      <select name="difficulty" id="difficulty">
+      <select name="difficulty" id="difficulty" [(ngModel)]="difficulty">
         <option value="easy">easy</option>
         <option value="medium">medium</option>
         <option value="hard">hard</option>

@@ -26,6 +26,9 @@ export class GoalsAutomaticComponent implements OnInit {
   dd!: MatTableDataSource<any>;
   userInfo = JSON.parse(JSON.stringify(localStorage.getItem('userData')));
   _getUserinfo = JSON.parse(this.userInfo);
+  total_time_count:number | undefined;
+  difficulty:string|undefined;
+  productiveSiteArray: string[] = [];
   
   constructor(
     private _titleService: TitleService,
@@ -71,7 +74,22 @@ export class GoalsAutomaticComponent implements OnInit {
       'actionLevel': this.actionLevelControl.value
     });
   }
-
+  addGoal(){
+    let data = {
+      userId: this._getUserinfo._id,
+      total_time_count:this.total_time_count,
+      total_time_spent:null,
+      is_goal_achieved:false,
+      difficulty:this.difficulty,
+      domain:this.productiveSiteArray
+    } 
+    console.log(data)
+    this._siteApiServices.addGoal(data).subscribe((res:any)=>{
+      if(res && res.msg === "Goals added successfully"){
+      this.getGoalSite();
+      }
+    });
+  }
   add(website: string): void {
     if (this.dataSource.find(d => d.name.toLowerCase() === website.toLocaleLowerCase())) {
       this.openSnackBar(`This website is already added in the list`, 'close');
@@ -83,9 +101,11 @@ export class GoalsAutomaticComponent implements OnInit {
       method: this.actionLevelControl.value, 
       site : this.input.value 
     }
+    this.productiveSiteArray.push(this.input.value??'')
+    console.log
     this._siteApiServices.addGoalSite(data).subscribe((res:any)=>{
       if(res && res.msg === "data added successfully"){
-      this.getGoalSite();
+        console.log("goal added")
       }
     });
       this.input.setValue('');
@@ -149,4 +169,5 @@ export class GoalsAutomaticComponent implements OnInit {
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action);
   }
+  
 }

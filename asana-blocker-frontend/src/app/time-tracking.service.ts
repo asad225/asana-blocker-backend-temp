@@ -21,31 +21,32 @@ export class TimeTrackingService {
 
     // Check if the tab is active every second
     setInterval(() => {
-      // If the tab is active and matches the provided site, check for recent click events
-      if (this.isActive && this.isSiteUrlMatched()) {
-        const currentTime = Date.now();
-        const deltaTime = currentTime - this.startTime;
+      this.isSiteUrlMatched()
+    //   // If the tab is active and matches the provided site, check for recent click events
+    //   if (this.isActive && this.isSiteUrlMatched()) {
+    //     const currentTime = Date.now();
+    //     const deltaTime = currentTime - this.startTime;
 
-        // Check if 5 minutes have passed since the last click event
-        if (deltaTime >= 10000) {
-          if (this.clickCount > 0) {
-            this.totalTime += deltaTime;
-          }
-          this.startTime = currentTime;
-          this.clickCount = 0;
-        }
-      }
-      console.log(this.totalTime)
+    //     // Check if 5 minutes have passed since the last click event
+    //     if (deltaTime >= 10000) {
+    //       if (this.clickCount > 0) {
+    //         this.totalTime += deltaTime;
+    //       }
+    //       this.startTime = currentTime;
+    //       this.clickCount = 0;
+    //     }
+    //   }
+    //   console.log(this.totalTime)
 
     }, 1000); // 1000 milliseconds = 1 second
 
     // Listen for click events on the window
-    window.addEventListener('click', () => {
-      if (this.isActive && this.isSiteUrlMatched()) {
-        this.clickCount++;
-        console.log("click count" + this.clickCount)
-      }
-    });
+    // window.addEventListener('click', () => {
+    //   if (this.isActive && this.isSiteUrlMatched()) {
+    //     this.clickCount++;
+    //     console.log("click count" + this.clickCount)
+    //   }
+    // });
 
     
   }

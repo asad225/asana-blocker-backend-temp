@@ -101,7 +101,7 @@ export class GoalsAutomaticComponent implements OnInit {
         description: website
       });
     }
-    this._timeTrackingService.isSiteUrlMatched()
+    this._timeTrackingService.startTimer('google.com')
   }
 
   deleteSite(_id:any){

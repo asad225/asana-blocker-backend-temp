@@ -41,6 +41,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { EditprofileComponent } from './profile/editprofile/editprofile.component';
 import { TimeTrackingService } from './time-tracking.service';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -84,7 +85,8 @@ import { TimeTrackingService } from './time-tracking.service';
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MatMenuModule
+    MatMenuModule,
+    
   ],
   providers: [TimeTrackingService],
   bootstrap: [AppComponent]

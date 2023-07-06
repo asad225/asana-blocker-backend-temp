@@ -66,7 +66,7 @@
       matInput
       placeholder="Ex. Google.com"
       [formControl]="input"
-      (keyup.enter)="add(input.value || '')"
+      (keyup.enter)="addWebsite(input.value || '')"
     />
   </mat-form-field>
 
@@ -106,9 +106,9 @@
       <th>Actions</th>
     </tr>
     <tr *ngFor="let website of productiveSiteArray">
-      <td>{{ website.site}}</td>
+      <td>{{ website}}</td>
       <td>
-        <button mat-button color="warn" (click)="deleteSite(website._id)">
+        <button mat-button color="warn" (click)="deleteSite(website)">
           <mat-icon class="delete-btn"> delete </mat-icon>
         </button>
       </td>

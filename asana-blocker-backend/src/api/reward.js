@@ -3,9 +3,10 @@ import { Rewards, Goals, ProductiveSite, BlockSite } from "../models/reward.js";
 // ---------------------------------------------------------Add Productive sites----------------------------------------
 
 export const addProductiveSite = async (req, res) => {
-  const { userId, site, method } = req.body;
+  const { userId, site, method , goalId} = req.body;
   try {
     const addproductiveSite = new ProductiveSite({
+      goalId,
       userId,
       site,
       method,
@@ -38,11 +39,11 @@ export const addBlockedSite = async (req, res) => {
 // --------------------------------------------------------Get_All_Sites--------------------------------------------------
 
 export const getProductiveSites = async (req, res) => {
-  const userId = req.params.userId; // Assuming the user ID is passed as a route parameter
+  const {userId , goalId} = req.body; // Assuming the user ID is passed as a route parameter
 
   try {
     // Find domains by user ID
-    const result = await ProductiveSite.find({ userId });
+    const result = await ProductiveSite.find({ userId , goalId });
 
     if (result.length === 0) {
       return res.status(200).json({

@@ -7,6 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { StorageService } from '../services/storage.service';
 import { SitesApiService } from '../services/sites-api.service';
 import { FormControl } from '@angular/forms';
+import { TimeTrackingService } from '../time-tracking.service';
 
 @Component({
   selector: 'ab-goals-automatic',
@@ -36,6 +37,7 @@ export class GoalsAutomaticComponent implements OnInit {
   }
   
   constructor(
+    private _timeTrackingService : TimeTrackingService,
     private _titleService: TitleService,
     private _activatedRoute: ActivatedRoute,
     private _snackBar: MatSnackBar,
@@ -57,7 +59,10 @@ export class GoalsAutomaticComponent implements OnInit {
     this.productiveSiteArray=this.Goal.domain
     localStorage.setItem('productiveWebsite',JSON.stringify(this.productiveSiteArray))
     this.getGoalSite();
+    
   }
+    
+    
 
   async ngOnInit(): Promise<void> {  
     
@@ -157,6 +162,7 @@ export class GoalsAutomaticComponent implements OnInit {
         description: website
       });
     }
+    this._timeTrackingService.startTimer('google.com')
   }
 
   deleteSite(_id:any){

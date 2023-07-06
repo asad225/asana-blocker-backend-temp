@@ -128,9 +128,7 @@ routes.post(
 
 // ---------------------------------------getProductiveSites---------------------------------------------------------------------
 routes.get( 
-  "/productive/sites/:userId",
-  [ check("userId").not().isEmpty().withMessage("User is required"),],
-  ValidationErrors,
+  "/productive/sites",
   getProductiveSites
 );
 

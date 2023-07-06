@@ -26,7 +26,7 @@
 <div class="add-website">
   <mat-form-field class="website-input">
     <mat-label>Add Time</mat-label>
-    <input [(ngModel)]="total_time_count" matInput placeholder="Add Time" />
+    <input [(ngModel)]="Goal.total_time_count" matInput placeholder="Add Time" />
   </mat-form-field>
 </div>
 
@@ -44,7 +44,7 @@
 
   <div class="difficulty-container">
       <label for="difficulty">Difficulty:</label>
-      <select name="difficulty" id="difficulty" [(ngModel)]="difficulty">
+      <select name="difficulty" id="difficulty" [(ngModel)]="Goal.difficulty">
         <option value="easy">easy</option>
         <option value="medium">medium</option>
         <option value="hard">hard</option>
@@ -72,7 +72,7 @@
 
   <button
     class="add-btn"
-    (click)="add(input.value || '')"
+    (click)="addWebsite(input.value || '')"
     mat-raised-button
     color="primary"
   >
@@ -105,10 +105,10 @@
       <th>Name</th>
       <th>Actions</th>
     </tr>
-    <tr *ngFor="let sites of _getGoalSiteList">
-      <td>{{ sites.site }}</td>
+    <tr *ngFor="let website of productiveSiteArray">
+      <td>{{ website.site}}</td>
       <td>
-        <button mat-button color="warn" (click)="deleteSite(sites._id)">
+        <button mat-button color="warn" (click)="deleteSite(website._id)">
           <mat-icon class="delete-btn"> delete </mat-icon>
         </button>
       </td>

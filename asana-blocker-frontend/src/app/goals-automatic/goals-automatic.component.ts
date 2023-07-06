@@ -26,9 +26,14 @@ export class GoalsAutomaticComponent implements OnInit {
   dd!: MatTableDataSource<any>;
   userInfo = JSON.parse(JSON.stringify(localStorage.getItem('userData')));
   _getUserinfo = JSON.parse(this.userInfo);
-  total_time_count:number | undefined;
-  difficulty:string|undefined;
-  productiveSiteArray: string[] = [];
+  productiveSiteArray: any[] = [];
+  Goal={
+    userId:null,
+    total_time_count:0,
+    total_time_spent:0,
+    difficulty:'easy',
+    domain:[]
+  }
   
   constructor(
     private _titleService: TitleService,
@@ -38,10 +43,24 @@ export class GoalsAutomaticComponent implements OnInit {
    // private _cdr: ChangeDetectorRef,
     private _siteApiServices : SitesApiService
   ) {  
+    this._siteApiServices.getGoal(localStorage.getItem('userId')).subscribe((res:any)=>{
+      localStorage.setItem('Goal',JSON.stringify(res.goal))
+      const goal = res.goal;
+      this.Goal = {
+        userId: goal.userId,
+        total_time_count: goal.total_time_count,
+        total_time_spent: goal.total_time_spent,
+        difficulty: goal.difficulty,
+        domain: goal.domain
+      };      
+    })
+    this.productiveSiteArray=this.Goal.domain
+    localStorage.setItem('productiveWebsite',JSON.stringify(this.productiveSiteArray))
     this.getGoalSite();
   }
 
-  ngOnInit(): void {  
+  async ngOnInit(): Promise<void> {  
+    
     this._activatedRoute.data.subscribe((response: any) => {
       if (response && response.data) {
         this.fillInTheItems(response.data);
@@ -52,11 +71,32 @@ export class GoalsAutomaticComponent implements OnInit {
     this._titleService.title$.next('Goals > Automatic');
     // this._cdr.detectChanges();
   }
+  addWebsite(website: string){
+    let websiteUrl;
+    if(this.wbRx.test(website)){
+      websiteUrl=website
+    }
+    websiteUrl = `https://${website}.com`;
+    this.productiveSiteArray.push(websiteUrl)
+    localStorage.setItem('productiveWebsite',JSON.stringify(this.productiveSiteArray))
+    let data = {
+      userId: this._getUserinfo._id,
+      method: this.actionLevelControl.value, 
+      site : websiteUrl
+    }
+    this._siteApiServices.addGoalSite(data).subscribe((res:any)=>{
+      if(res && res.msg === "data added successfully"){
+        this.getGoalSite()
+      }
+    });
+
+  }
 
   getGoalSite(){
     this._siteApiServices.getGoalSite(this._getUserinfo._id).subscribe((res:any)=>{
-      this._getGoalSiteList = res.data;
-      console.log(this._getGoalSiteList);
+      console.log('res data from goal sire: ',res.data)
+      this.productiveSiteArray = res.data;
+      console.log(this.productiveSiteArray);
      });
   }
   
@@ -75,20 +115,22 @@ export class GoalsAutomaticComponent implements OnInit {
     });
   }
   addGoal(){
+    console.log("add goal")
     let data = {
       userId: this._getUserinfo._id,
-      total_time_count:this.total_time_count,
-      total_time_spent:null,
+      total_time_count:this.Goal.total_time_count,
+      total_time_spent:0,
       is_goal_achieved:false,
-      difficulty:this.difficulty,
+      difficulty:this.Goal.difficulty,
       domain:this.productiveSiteArray
-    } 
-    console.log(data)
+    }
     this._siteApiServices.addGoal(data).subscribe((res:any)=>{
       if(res && res.msg === "Goals added successfully"){
-      this.getGoalSite();
+      this._stor.saveData('Goal',JSON.stringify(data));
+      localStorage.setItem('Goal',JSON.stringify(data))
       }
     });
+    
   }
   add(website: string): void {
     if (this.dataSource.find(d => d.name.toLowerCase() === website.toLocaleLowerCase())) {
@@ -102,10 +144,9 @@ export class GoalsAutomaticComponent implements OnInit {
       site : this.input.value 
     }
     this.productiveSiteArray.push(this.input.value??'')
-    console.log
     this._siteApiServices.addGoalSite(data).subscribe((res:any)=>{
       if(res && res.msg === "data added successfully"){
-        console.log("goal added")
+        this.getGoalSite()
       }
     });
       this.input.setValue('');

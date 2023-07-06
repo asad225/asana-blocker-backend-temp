@@ -39,6 +39,10 @@ export class SitesApiService {
   addBlockSite(data:any): Observable<any>{
     return this.http.post(this.apiUrl + '/block/site', data);
   }
+  getGoal(userId:any):Observable<any>{
+    
+    return this.http.get(this.apiUrl+`/getGoalUserId/${userId}`)
+  }
 
   getBlockSite(userId:any): Observable<any>{
     return this.http.get(this.apiUrl + `/block/sites/${userId}`);

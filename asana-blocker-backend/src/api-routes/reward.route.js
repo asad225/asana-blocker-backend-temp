@@ -67,7 +67,7 @@ routes.get(
 );
 // ----------------------------Goal By UserId-----------------------------------------------------------------------
 routes.get(
-  "/getGoalUserId",
+  "/getGoalUserId/:userId",
   [
     check("userId")
       .not()

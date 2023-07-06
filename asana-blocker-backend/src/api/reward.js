@@ -100,7 +100,7 @@ export const addGoalOfGoodSites = async (req, res) => {
     return res.status(201).json({ result, msg: "Goals added successfully" });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ msg: "Internal Server Error" });
+    return res.status(500).json({ msg: error });
   }
 };
 //----------------------------------------------------------Delete_Goals---------------------------------------------------
@@ -155,39 +155,28 @@ export const findIsGoalCompleted = async (req, res) => {
 
 // it will check the boolean field if goal has been completed
 export const findGoalByUserId = async (req, res) => {
-  const {userId} = req.body;
+  const { userId } = req.params;
   try {
-    const goal= await Goals.find({userId:userId})
-    
-    console.log(goal)
-    
-    
-    
-    const {is_goal_achieved} = goal
+    const goal = await Goals.find({ userId: userId, is_goal_achieved: false });
 
-    
-
-    if(is_goal_achieved){
-      return res.json({goal , msg:'Goal Found!'})
-      
-    }else{
+    if (goal.length>0) {
+      return res.json({ goal, msg: 'Goal Found!' });
+    } else {
       const empty_goal = {
-        domain: null,
-        total_time_count: null,
-        total_time_spent: null,
-        is_goal_achieved: null,
+        domain: [],
+        total_time_count: 0,
+        total_time_spent: 0,
+        is_goal_achieved: false,
         userId: null,
-        difficulty: null
+        difficulty: 'easy'
       };
-      
-      return res.json({empty_goal , msg:'Goal Not Found!'})
+
+      return res.json({ goal: empty_goal, msg: 'Goal Not Found!' });
     }
   } catch (error) {
-    
-      return res.status(500).json({msg: "Internal Server Error" });
+    return res.status(500).json({ msg: 'Internal Server Error' });
   }
 };
-
 // ----------------------------------------------------------rewards----------------------------------------------------
 
 export const addRewardsOfGoodSites = async (req, res) => {

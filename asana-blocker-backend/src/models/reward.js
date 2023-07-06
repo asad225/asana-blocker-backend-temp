@@ -10,6 +10,11 @@ const productiveSiteSchema = new mongoose.Schema(
       required: true,
       ref: "users",
     },
+    goalId: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "goals",
+    },
     site: { type: String, required: true, default: "none" },
     method: { type: String, required: true, default: "easy" },
   },

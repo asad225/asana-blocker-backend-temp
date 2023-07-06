@@ -7,6 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { StorageService } from '../services/storage.service';
 import { SitesApiService } from '../services/sites-api.service';
 import { FormControl } from '@angular/forms';
+import { TimeTrackingService } from '../time-tracking.service';
 
 @Component({
   selector: 'ab-goals-automatic',
@@ -28,6 +29,7 @@ export class GoalsAutomaticComponent implements OnInit {
   _getUserinfo = JSON.parse(this.userInfo);
   
   constructor(
+    private _timeTrackingService : TimeTrackingService,
     private _titleService: TitleService,
     private _activatedRoute: ActivatedRoute,
     private _snackBar: MatSnackBar,
@@ -36,7 +38,10 @@ export class GoalsAutomaticComponent implements OnInit {
     private _siteApiServices : SitesApiService
   ) {  
     this.getGoalSite();
+    
   }
+    
+    
 
   ngOnInit(): void {  
     this._activatedRoute.data.subscribe((response: any) => {
@@ -96,6 +101,7 @@ export class GoalsAutomaticComponent implements OnInit {
         description: website
       });
     }
+    this._timeTrackingService.isSiteUrlMatched()
   }
 
   deleteSite(_id:any){

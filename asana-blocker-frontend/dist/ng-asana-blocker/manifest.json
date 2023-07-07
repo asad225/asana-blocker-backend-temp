@@ -10,8 +10,8 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["contentScript.js"],
-      "run_at": "document_end"
+      "js": ["contentScript.js"]
+      
     }
   ],
   "permissions": [
@@ -19,8 +19,7 @@
     "alarms",
     "tabs",
     "scripting",
-    "activeTab",
-    "tabs"
+    "activeTab"
   ],
   "host_permissions": [
     "<all_urls>"

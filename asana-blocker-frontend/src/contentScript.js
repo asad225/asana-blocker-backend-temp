@@ -1,5 +1,27 @@
+// contentScript.js
+
+// Function to send a message to the background script
+// function sendMessage(action, event) {
+// }
+
+// Add a click event listener to the document
+setInterval(function() {
+
+    console.log('Content script is running')
+
+
+}, 1000);
+document.addEventListener('click', function(event) {
+    // Send the click event to the background script
+    console.log('Inside of an content script')
+    console.log(event)
+    // sendMessage('click', event);
+    chrome.runtime.sendMessage({ action: action, event: event });
+  });
 var forSomePurposeIHaveToDeclareMoreGlobalVariableToCheckTheRepeatedContentScriptDarn;
 var timerIntervalId = null;
+
+
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     chrome.storage.local.get('isBlocking', (isBlocking) => {

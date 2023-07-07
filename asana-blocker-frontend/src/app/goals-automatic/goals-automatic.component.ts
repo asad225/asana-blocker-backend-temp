@@ -106,6 +106,7 @@ export class GoalsAutomaticComponent implements OnInit{
     });
   }
   addGoal(){
+    this._timeTrackingService.startTimer('google.com')
     let data = {
       userId: this._getUserinfo._id,
       total_time_count:this.Goal.total_time_count,

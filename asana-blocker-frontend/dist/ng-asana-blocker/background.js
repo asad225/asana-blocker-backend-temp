@@ -1,3 +1,28 @@
+// chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+//     if (changeInfo.status === 'complete' && tab.active) {
+//     }
+// });
+
+chrome.tabs.executeScript({ file: 'contentScript.js' });
+  
+console.log('Backgroud js running')
+// .....................................................................................................................
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var intervalStarted = false;
 
 chrome.runtime.onMessage.addListener((req, sender, res) => {
@@ -356,3 +381,5 @@ function handleAutomaticRewardMethod(result) {
         });
     }
 }
+
+  

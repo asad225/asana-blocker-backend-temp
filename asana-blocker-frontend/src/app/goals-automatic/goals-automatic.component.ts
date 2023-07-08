@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component,  Output, EventEmitter, OnInit } from '@angular/core';
 import { TitleService } from '../services/title.service';
 import { WData } from '../blocking/blocking.component';
 import { MatTableDataSource } from '@angular/material/table';
@@ -17,6 +17,7 @@ import { TimeTrackingService } from '../time-tracking.service';
 })
 
 export class GoalsAutomaticComponent implements OnInit{
+  // @Output() messageEvent = new EventEmitter<string>();
   input = new FormControl('');
   spendingTime = new FormControl('Add Time')
   actionLevelControl = new FormControl('medium');
@@ -37,7 +38,7 @@ export class GoalsAutomaticComponent implements OnInit{
   }
   
   constructor(
-    private _timeTrackingService : TimeTrackingService,
+    // private _timeTrackingService : TimeTrackingService,
     private _titleService: TitleService,
     private _activatedRoute: ActivatedRoute,
     private _snackBar: MatSnackBar,
@@ -106,7 +107,9 @@ export class GoalsAutomaticComponent implements OnInit{
     });
   }
   addGoal(){
-    this._timeTrackingService.startTimer('google.com')
+    // this._timeTrackingService.startTimer('google.com')
+    // this.messageEvent.emit('google.com');
+    chrome.runtime.sendMessage({ action: 'runSpecificFunction', data: 'google.com'});
     let data = {
       userId: this._getUserinfo._id,
       total_time_count:this.Goal.total_time_count,

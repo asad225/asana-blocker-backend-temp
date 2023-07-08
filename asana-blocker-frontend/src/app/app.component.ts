@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ReplaySubject, takeUntil } from 'rxjs';
+import { ReplaySubject, takeUntil, timeInterval } from 'rxjs';
 import { StorageService } from './services/storage.service';
 import { TitleService } from './services/title.service';
 
@@ -21,6 +21,7 @@ export class AppComponent implements OnInit {
   ) {}
 
   async ngOnInit(): Promise<void> {
+   
     if (!await this._stor.get('rewardMethod')) {
       this._stor.set({
         rewardMethod: 'automatic'

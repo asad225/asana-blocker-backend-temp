@@ -22,7 +22,7 @@ function isSiteUrlMatched(siteUrl) {
 
   let activeTabUrl = document.location.href;
   console.log(activeTabUrl);
-  for (const url of siteUrl) {
+  for (let url of siteUrl) {
     if (activeTabUrl.includes(url)) {
       return true;
     }
@@ -39,54 +39,74 @@ let clickCount = 0;
 function startTimer(url) {
   let startTime = 0;
   let totalPoint = 0;
-  let hoursSpent = 0;
+  let minSpent = 0;
   let isActive = true;
   let siteUrl = url;
+  let goal = null
   console.log("start timer working");
   startTime = Date.now();
 
   // Check if the tab is active every second
+  
+  
+  
+  
   setInterval(() => {
-    chrome.storage.local.get(["totalPoint"], (result) => {
-      if (result["totalPoint"]) {
-        totalPoint = result.totalPoint;
-      }
-    });
-    // If the tab is active and matches the provided site, check for recent click events
-    if (isActive && isSiteUrlMatched(siteUrl)) {
-      const currentTime = Date.now();
-      const deltaTime = currentTime - startTime;
+    console.log(goal)
+    chrome.storage.local.get(["goal"], (result) => {
+      if (result['goal']){
+        goal = result.goal
 
-      hoursSpent = hoursSpent + deltaTime / (1000 * 60 * 60);
-      console.log("Hours that have been spent" + hoursSpent);
-      
-      // Check if 5 minutes have passed since the last click event
-      if (deltaTime >= 10000) {
-        if (clickCount > 0) {
-          totalPoint++;
-          chrome.storage.local.set({ totalPoint });
+      }
+  
+    });
+
+    if (goal){
+      const {domain} = goal[0]
+      siteUrl = domain
+      console.log(siteUrl)
+      chrome.storage.local.get(["totalPoint"], (result) => {
+        if (result["totalPoint"]) {
+          totalPoint = result.totalPoint;
         }
-        startTime = currentTime;
-        clickCount = 0;
+      });
+      
+      // If the tab is active and matches the provided site, check for recent click events
+      if (isActive && isSiteUrlMatched(siteUrl)) {
+        const currentTime = Date.now();
+        const deltaTime =Math.abs( currentTime - startTime);
+  
+        minSpent +=   deltaTime / (1000 * 60 * 60  ) 
+        console.log("Hours that have been spent" + minSpent);
+        
+        // Check if 5 minutes have passed since the last click event
+        if (deltaTime >= 10000) {
+          if (clickCount > 0) {
+            totalPoint++;
+            chrome.storage.local.set({ totalPoint });
+          }
+          startTime = currentTime;
+          clickCount = 0;
+        }
       }
+      console.log("total Point is " + totalPoint);
+  
+      document.addEventListener("click", (event) => {
+        if (isActive && isSiteUrlMatched(siteUrl)) {
+          clickCount++;
+        }
+      });
+      document.addEventListener("keydown", function (event) {
+        if (isActive && isSiteUrlMatched(siteUrl)) {
+          clickCount++;
+        }
+      });
     }
-    console.log("total Point is " + totalPoint);
-
-    document.addEventListener("click", (event) => {
-      if (isActive && isSiteUrlMatched(siteUrl)) {
-        clickCount++;
-      }
-    });
-    document.addEventListener("keydown", function (event) {
-      if (isActive && isSiteUrlMatched(siteUrl)) {
-        clickCount++;
-      }
-    });
 
     // this.clickEvents();
   }, 1000); // 1000 milliseconds = 1 second
 }
-startTimer(url);
+startTimer();
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     chrome.storage.local.get('isBlocking', (isBlocking) => {

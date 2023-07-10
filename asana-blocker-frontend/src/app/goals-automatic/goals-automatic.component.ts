@@ -58,8 +58,11 @@ export class GoalsAutomaticComponent implements OnInit{
     this.setVariables();
     this._titleService.title$.next('Goals > Automatic');
     this._cdr.detectChanges();*/
+    
     this._siteApiServices.getGoal(localStorage.getItem('userId')).subscribe((res:any)=>{
       localStorage.setItem('Goal',JSON.stringify(res.goal))
+      chrome.storage.local.set({ goal:res.goal });
+
       const goal = res.goal;
       console.log(res.goal)
       if(res.msg!=='Goal Not Found!'){
@@ -99,7 +102,7 @@ export class GoalsAutomaticComponent implements OnInit{
     if(this.wbRx.test(website)){
       websiteUrl=website
     }
-    websiteUrl = `https://${website}.com`;
+    websiteUrl = `${website}.com`;
     this.productiveSiteArray.push(websiteUrl)
     localStorage.setItem('productiveWebsite',JSON.stringify(this.productiveSiteArray))
   }
@@ -120,6 +123,8 @@ export class GoalsAutomaticComponent implements OnInit{
 
       if(res && res.msg === "Goals added successfully"){
       localStorage.setItem('Goal',JSON.stringify(updatedGoal))
+      chrome.storage.local.set({ goal:updatedGoal });
+
 
 
       //now we have to check which productive sites need to be removed or added
@@ -175,6 +180,8 @@ export class GoalsAutomaticComponent implements OnInit{
         console.log("res",res)
       this._stor.saveData('Goal',JSON.stringify(data));
       localStorage.setItem('Goal',JSON.stringify(data))
+      chrome.storage.local.set({ goal:data });
+
       /*this.productiveSiteArray.forEach(website => {
         const data = {
           userId: this._getUserinfo._id,

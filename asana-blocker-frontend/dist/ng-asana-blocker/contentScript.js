@@ -1,9 +1,6 @@
 var forSomePurposeIHaveToDeclareMoreGlobalVariableToCheckTheRepeatedContentScriptDarn;
 var timerIntervalId = null;
 
-
-
-
 // const  getCurrentUrl = async() => {
 //  return new Promise((resolve, reject) => {
 //    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -18,76 +15,96 @@ var timerIntervalId = null;
 // }
 
 function isSiteUrlMatched(siteUrl) {
-//  getCurrentUrl()
-//    .then((url) => {
-//      console.log(url);
-//      let activeTabUrl = String(url);
-//      console.log(activeTabUrl)
-//      console.log(activeTabUrl.includes(siteUrl));
-//      if (!activeTabUrl.includes(siteUrl)) {
-//        console.log("Tab not matched");
-//      }
-//      return activeTabUrl.includes(siteUrl);
-//    })
-//    .catch((error) => {
-//      console.error(error);
-//    });
+  //  getCurrentUrl()
+  //    .then((url) => {
+  //      console.log(url);
+  //      let activeTabUrl = String(url);
+  //      console.log(activeTabUrl)
+  //      console.log(activeTabUrl.includes(siteUrl));
+  //      if (!activeTabUrl.includes(siteUrl)) {
+  //        console.log("Tab not matched");
+  //      }
+  //      return activeTabUrl.includes(siteUrl);
+  //    })
+  //    .catch((error) => {
+  //      console.error(error);
+  //    });
 
-    let activeTabUrl = document.location.href
-    console.log(activeTabUrl)
-    return activeTabUrl.includes(siteUrl)
+  let activeTabUrl = document.location.href;
+  console.log(activeTabUrl);
+  for (const url of siteUrl) {
+    if (activeTabUrl.includes(url)) {
+      return true;
+    }
+  }
+
+  // let activeTabUrl = document.location.href
+  // console.log(activeTabUrl)
+  // return activeTabUrl.includes(siteUrl)
 }
 
-
-let url = 'google.com'
+let url = ["google.com", "youtube.com"];
 let clickCount = 0;
 
 function startTimer(url) {
   let startTime = 0;
   let totalPoint = 0;
+  let hoursSpent = 0;
   let isActive = true;
-  let siteUrl = url
+  let siteUrl = url;
   console.log("start timer working");
   startTime = Date.now();
 
   // Check if the tab is active every second
   setInterval(() => {
+    chrome.storage.local.get(["totalPoint"], (result) => {
+      if (result["totalPoint"]) {
+        totalPoint = result.totalPoint;
+      }
+    });
     // If the tab is active and matches the provided site, check for recent click events
     if (isActive && isSiteUrlMatched(siteUrl)) {
       const currentTime = Date.now();
       const deltaTime = currentTime - startTime;
 
+      hoursSpent = hoursSpent + deltaTime / (1000 * 60 * 60);
+      console.log("Hours that have been spent" + hoursSpent);
+
       // Check if 5 minutes have passed since the last click event
       if (deltaTime >= 10000) {
         if (clickCount > 0) {
-            totalPoint ++;
+          totalPoint++;
+          chrome.storage.local.set({ totalPoint });
         }
         startTime = currentTime;
         clickCount = 0;
       }
     }
-    console.log('total Point is ' + totalPoint)
+    console.log("total Point is " + totalPoint);
 
     document.addEventListener("click", (event) => {
       if (isActive && isSiteUrlMatched(siteUrl)) {
         clickCount++;
       }
     });
-    
+    document.addEventListener("keydown", function (event) {
+      if (isActive && isSiteUrlMatched(siteUrl)) {
+        clickCount++;
+      }
+    });
+
     // this.clickEvents();
   }, 1000); // 1000 milliseconds = 1 second
 }
-// startTimer(url)
+startTimer(url);
 
-
-
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-    if (request.action === 'runSpecificFunction') {
-        // Call your specific function and access the data
-        console.log('data is ' + request.data)
-        startTimer(request.data);
-    }
-    });
+// chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+//     if (request.action === 'runSpecificFunction') {
+//         // Call your specific function and access the data
+//         console.log('data is ' + request.data)
+//         startTimer(request.data);
+//     }
+//     });
 // .............................................................................................................
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {

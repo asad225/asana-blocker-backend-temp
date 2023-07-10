@@ -109,7 +109,7 @@ export class GoalsAutomaticComponent implements OnInit{
   addGoal(){
     // this._timeTrackingService.startTimer('google.com')
     // this.messageEvent.emit('google.com');
-    chrome.runtime.sendMessage({ action: 'runSpecificFunction', data: 'google.com'});
+    // chrome.runtime.sendMessage({ action: 'runSpecificFunction', data: 'google.com'});
     let data = {
       userId: this._getUserinfo._id,
       total_time_count:this.Goal.total_time_count,

@@ -39,7 +39,6 @@ import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { ProfileComponent } from './profile/profile.component';
 import { EditprofileComponent } from './profile/editprofile/editprofile.component';
-import { TimeTrackingService } from './time-tracking.service';
 
 
 @NgModule({
@@ -88,7 +87,7 @@ import { TimeTrackingService } from './time-tracking.service';
     MatMenuModule,
     
   ],
-  providers: [TimeTrackingService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

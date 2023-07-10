@@ -28,8 +28,9 @@ export class GoalsAutomaticComponent implements OnInit{
   userInfo = JSON.parse(JSON.stringify(localStorage.getItem('userData')));
   _getUserinfo = JSON.parse(this.userInfo);
   productiveSiteArray: any[] = [];
+  isUpdate=false
   Goal={
-    userId:null,
+    userId:'',
     total_time_count:0,
     total_time_spent:0,
     difficulty:'easy',
@@ -62,17 +63,36 @@ export class GoalsAutomaticComponent implements OnInit{
     this._siteApiServices.getGoal(localStorage.getItem('userId')).subscribe((res:any)=>{
       localStorage.setItem('Goal',JSON.stringify(res.goal))
       const goal = res.goal;
-      this.Goal = {
-        userId: goal[0].userId,
-        total_time_count: goal[0].total_time_count,
-        total_time_spent: goal[0].total_time_spent,
-        difficulty: goal[0].difficulty,
-        domain: goal[0].domain
-      };     
-      console.log('domain:',this.Goal.domain) 
-      this.productiveSiteArray=this.Goal.domain
-    console.log("product: ",this.productiveSiteArray)
-    localStorage.setItem('productiveWebsite',JSON.stringify(this.productiveSiteArray))
+      console.log(res.goal)
+      if(res.msg!=='Goal Not Found!'){
+
+        this.isUpdate=true
+        this.Goal = {
+          userId:localStorage.getItem('userId')??'',
+          total_time_count: goal[0].total_time_count,
+          total_time_spent: goal[0].total_time_spent,
+          difficulty: goal[0].difficulty,
+          domain: goal[0].domain
+        }; 
+        this.productiveSiteArray=this.Goal.domain
+        localStorage.setItem('productiveWebsite',JSON.stringify(this.productiveSiteArray))
+        
+  
+      }else{
+        this.Goal = {
+          userId:localStorage.getItem('userId')??'',
+          total_time_count: goal.total_time_count,
+          total_time_spent: goal.total_time_spent,
+          difficulty: goal.difficulty,
+          domain: goal.domain
+        }; 
+        this.productiveSiteArray=this.Goal.domain
+        localStorage.setItem('productiveWebsite',JSON.stringify(this.productiveSiteArray))
+        
+  
+      }
+
+      
     })
     
   }
@@ -81,9 +101,45 @@ export class GoalsAutomaticComponent implements OnInit{
     if(this.wbRx.test(website)){
       websiteUrl=website
     }
-    websiteUrl = `https:///${website}.com`;
+    websiteUrl = `https://${website}.com`;
     this.productiveSiteArray.push(websiteUrl)
     localStorage.setItem('productiveWebsite',JSON.stringify(this.productiveSiteArray))
+  }
+  updateGoal(){
+    
+    const goal=JSON.parse(localStorage.getItem('Goal')??'')
+    console.log(this.Goal)
+    let updatedGoal = {
+      userId: this._getUserinfo._id,
+      total_time_count:this.Goal.total_time_count,
+      total_time_spent:this.Goal.total_time_spent,
+      is_goal_achieved:false,
+      difficulty:this.Goal.difficulty,
+      domain:this.productiveSiteArray
+    }
+    
+    this._siteApiServices.updateGoal(goal[0]._id,updatedGoal).subscribe((res:any)=>{
+
+      if(res && res.msg === "Goals added successfully"){
+      localStorage.setItem('Goal',JSON.stringify(updatedGoal))
+
+
+      //now we have to check which productive sites need to be removed or added
+      this.productiveSiteArray.forEach(website => {
+        const data = {
+          userId: this._getUserinfo._id,
+          method: this.actionLevelControl.value,
+          site: website,
+          goalId:res.result._id
+        };
+        this._siteApiServices.addGoalSite(data).subscribe((res: any) => {
+          if (res && res.msg === "data added successfully") {
+          }
+        });
+      });
+
+      }
+    });  
   }
 
   getGoalSite(){
@@ -106,6 +162,7 @@ export class GoalsAutomaticComponent implements OnInit{
     });
   }
   addGoal(){
+    console.log("addGoal")
     let data = {
       userId: this._getUserinfo._id,
       total_time_count:this.Goal.total_time_count,
@@ -114,11 +171,13 @@ export class GoalsAutomaticComponent implements OnInit{
       difficulty:this.Goal.difficulty,
       domain:this.productiveSiteArray
     }
+    console.log("this is data: ",data)
     this._siteApiServices.addGoal(data).subscribe((res:any)=>{
       if(res && res.msg === "Goals added successfully"){
+        console.log("res",res)
       this._stor.saveData('Goal',JSON.stringify(data));
       localStorage.setItem('Goal',JSON.stringify(data))
-      this.productiveSiteArray.forEach(website => {
+      /*this.productiveSiteArray.forEach(website => {
         const data = {
           userId: this._getUserinfo._id,
           method: this.actionLevelControl.value,
@@ -129,7 +188,7 @@ export class GoalsAutomaticComponent implements OnInit{
           if (res && res.msg === "data added successfully") {
           }
         });
-      });
+      });*/
 
       }
     });  

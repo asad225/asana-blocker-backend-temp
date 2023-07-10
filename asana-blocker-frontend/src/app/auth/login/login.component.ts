@@ -23,6 +23,7 @@ export class LoginComponent {
       this.storageService.saveData('userData', data.user);
       this.storageService.saveData('authToken', data.token);
       localStorage.setItem('userId',data.user._id)
+      console.log(data.user._id)
     })
   }
 

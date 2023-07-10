@@ -1,5 +1,5 @@
 <div class="goals-automatic-wrapper button-container">
-  <div>
+  <div *ngIf="isUpdate==false">
     <button
       mat-raised-button
       class="LoginBtn login-btn-style"
@@ -8,6 +8,17 @@
       (click)="addGoal()"
     >
       Add
+    </button>
+  </div>
+  <div *ngIf="isUpdate==true">
+    <button
+      mat-raised-button
+      class="LoginBtn login-btn-style"
+      color="primary"
+      type="submit"
+      (click)="updateGoal()"
+    >
+      Update
     </button>
   </div>
   <div>

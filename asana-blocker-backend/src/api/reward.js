@@ -168,7 +168,7 @@ export const findGoalByUserId = async (req, res) => {
         total_time_count: 0,
         total_time_spent: 0,
         is_goal_achieved: false,
-        userId: null,
+        userId: '',
         difficulty: 'easy'
       };
 
@@ -241,7 +241,29 @@ export const updateSpendingTime = async (req, res) => {
     return res.status(500).json({ msg: "Internal Server Error" });
   }
 };
+export const updateGoal = async (req, res) => {
+  const goalId = req.params.goalId;
+  const { ...updates } = req.body;
 
+  try {
+    const updatedGoal = await Goals.findByIdAndUpdate(
+      goalId,
+      updates,
+      { new: true }
+    );
+
+    if (!updatedGoal) {
+      return res.status(404).json({ msg: 'Goal not found' });
+    }
+
+    return res
+      .status(200)
+      .json({ result: updatedGoal, msg: 'Goal updated successfully' });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ msg: 'Internal Server Error' });
+  }
+};
 // --------------------------------------get goal details-------------------------------------------------------------------------
 export const getMygoalDetails = async (req, res) => {
   const { goalId } = req.params;

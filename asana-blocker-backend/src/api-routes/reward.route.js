@@ -15,7 +15,8 @@ import {
   deleteBlockSite,
   deleteGoalById,
   findIsGoalCompleted,
-  findGoalByUserId
+  findGoalByUserId,
+  updateGoal
 
 } from "../api/reward.js";
 import { ValidationErrors } from "../helper/validationMiddleware.js";
@@ -92,6 +93,17 @@ routes.put(
   ],
   ValidationErrors,
   updateSpendingTime
+);
+routes.put(
+  '/goal/updateGoal/:goalId',
+  [
+    check('goalId')
+      .not()
+      .isEmpty()
+      .withMessage('Please add goal id')
+  ],
+  ValidationErrors,
+  updateGoal
 );
 
 // routes.get(

@@ -61,7 +61,7 @@ export class GoalsAutomaticComponent implements OnInit{
     
     this._siteApiServices.getGoal(localStorage.getItem('userId')).subscribe((res:any)=>{
       localStorage.setItem('Goal',JSON.stringify(res.goal))
-      chrome.storage.local.set({ goal:res.goal });
+      chrome.storage.local.set({ goal:res.goal[0] });
 
       const goal = res.goal;
       console.log(res.goal)

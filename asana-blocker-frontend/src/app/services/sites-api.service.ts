@@ -32,9 +32,9 @@ export class SitesApiService {
     //body should contain updated spending time
     return this.http.put(this.apiUrl + `/goal/updateGoal/${goalId}`,data);
   }
-  deleteGoal(data:any):Observable<any>{
+  deleteGoal(goalId:any):Observable<any>{
     //body should contain goal id to be deleted
-    return this.http.delete(this.apiUrl + `/deleteGoal`,data);
+    return this.http.delete(this.apiUrl + `/deleteGoal/${goalId}`,);
   }
   addGoal(data:any):Observable<any>{
     //body should contain complete goal object

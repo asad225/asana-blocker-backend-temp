@@ -19,8 +19,7 @@
     "alarms",
     "tabs",
     "scripting",
-    "activeTab",
-    "tabs"
+    "activeTab"
   ],
   "host_permissions": [
     "<all_urls>"

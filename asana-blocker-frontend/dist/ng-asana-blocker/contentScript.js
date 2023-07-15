@@ -2,21 +2,6 @@ var forSomePurposeIHaveToDeclareMoreGlobalVariableToCheckTheRepeatedContentScrip
 var timerIntervalId = null;
 
 function isSiteUrlMatched(siteUrl) {
-  //  getCurrentUrl()
-  //    .then((url) => {
-  //      console.log(url);
-  //      let activeTabUrl = String(url);
-  //      console.log(activeTabUrl)
-  //      console.log(activeTabUrl.includes(siteUrl));
-  //      if (!activeTabUrl.includes(siteUrl)) {
-  //        console.log("Tab not matched");
-  //      }
-  //      return activeTabUrl.includes(siteUrl);
-  //    })
-  //    .catch((error) => {
-  //      console.error(error);
-  //    });
-
   let activeTabUrl = document.location.href;
   console.log(activeTabUrl);
   for (let url of siteUrl) {
@@ -24,21 +9,16 @@ function isSiteUrlMatched(siteUrl) {
       return true;
     }
   }
-
-  // let activeTabUrl = document.location.href
-  // console.log(activeTabUrl)
-  // return activeTabUrl.includes(siteUrl)
 }
 
-let url = ["google.com", "youtube.com"];
 let clickCount = 0;
 
-function startTimer(url) {
+function startTimer() {
   let startTime = 0;
   let totalPoint = 0;
   let minSpent = 0;
   let isActive = true;
-  let siteUrl = url;
+  let siteUrl = null;
   let goal = null;
   console.log("start timer working");
   startTime = Date.now();
@@ -55,76 +35,118 @@ function startTimer(url) {
     });
 
     if (goal) {
-      const {
+      let {
         domain,
         total_time_count,
         total_time_spent,
         difficulty,
         is_goal_achieved,
-      } = goal;
-      siteUrl = domain;
-      console.log(siteUrl);
-      console.log(total_time_count, total_time_spent, difficulty);
-       localTotalTimeSpent = total_time_spent;
-      console.log('Local Total Time Spent in the begining is' + localTotalTimeSpent )
-      let timer = 0;
-      if (difficulty == "easy") {
-        timer = 300000
-        // timer = 10000;
-      } else if (difficulty == "medium") {
-        timer = 150000;
-      } else {
-        timer = 60000;
-      }
-      console.log("time is set to " + timer);
-      // If the tab is active and matches the provided site, check for recent click events
+        userId,
+        _id,
+      } = goal[0];
+      console.log(_id)
+      if (userId != " ") {
+        siteUrl = domain;
+        console.log(siteUrl);
+        console.log(total_time_count, total_time_spent, difficulty);
+        localTotalTimeSpent = total_time_spent || 0;
+        console.log(
+          "Local Total Time Spent in the begining is" + localTotalTimeSpent
+        );
+        let timer = 0;
+        if (difficulty == "easy") {
+          timer = 300000;
+          // timer = 10000;
+        } else if (difficulty == "medium") {
+          timer = 150000;
+        } else {
+          timer = 60000;
+        }
+        console.log("time is set to " + timer);
+        // If the tab is active and matches the provided site, check for recent click events
 
-      if (isActive && isSiteUrlMatched(siteUrl)) {
-        const currentTime = Date.now();
-        const deltaTime = Math.abs(currentTime - startTime);
+        if (isActive && isSiteUrlMatched(siteUrl)) {
+          const currentTime = Date.now();
+          const deltaTime = Math.abs(currentTime - startTime);
 
-        minSpent = deltaTime / (1000 * 60);
+          minSpent = deltaTime / (1000 * 60);
+          console.log(minSpent);
 
-        // Check if 5 minutes have passed since the last click event
-        if (deltaTime >= timer) {
-          if (clickCount > 0) {
-            totalPoint++;
-            localTotalTimeSpent += minSpent;
-            const updatedGoal = {
-              domain,
-              total_time_count,
-              total_time_spent: localTotalTimeSpent, 
-              difficulty,
-              is_goal_achieved,
-            };
-            chrome.storage.local.set( {goal : updatedGoal } );
-            if (localTotalTimeSpent >= total_time_count) {
-              is_goal_achieved = true;
-              console.log("Has goal been achieved? " + is_goal_achieved);
+          // Check if 5 minutes have passed since the last click event
+          if (deltaTime >= timer) {
+            if (clickCount > 0) {
+              totalPoint++;
+              localTotalTimeSpent += minSpent;
+              console.log(
+                "Checking local time spent before saving it in storage" +
+                  localTotalTimeSpent
+              );
+              if (localTotalTimeSpent >= total_time_count) {
+                is_goal_achieved = true;
+                console.log("Goal Achieved");
+                let updatedGoal = {
+                  total_time_spent: localTotalTimeSpent,
+                  is_goal_achieved,
+                };
+                console.log('Id of goal before sending request is' + _id)
+                fetch(
+                  `http://localhost:3333/api/v1/goal/updateGoal/${_id}`,
+                  {
+                    method: "PUT",
+                    headers: {
+                      "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(updatedGoal),
+                  }
+                )
+                  .then((response) => {
+                    if (response.ok) {
+                      return response.json();
+                    }
+                    throw new Error("Request failed.");
+                  })
+                  .then((responseData) => {
+                    console.log(
+                      "Goal has been updated successfully",
+                      responseData,_id
+                    );
+                  })
+                  .catch((error) => {
+                    console.error(error);
+                  });
+              }
+              updatedGoal = {
+                domain,
+                total_time_count,
+                total_time_spent: localTotalTimeSpent,
+                difficulty,
+                is_goal_achieved,
+                userId,
+                _id
+  
+              };
+              chrome.storage.local.set({ goal: [updatedGoal] });
             }
+            startTime = currentTime;
+            clickCount = 0;
+            console.log("total time spent uptil now " + localTotalTimeSpent);
           }
-          startTime = currentTime;
-          clickCount = 0;
-          console.log("total time spent uptil now " + localTotalTimeSpent);
         }
+        console.log("total Point is " + totalPoint);
+
+        document.addEventListener("click", (event) => {
+          if (isActive && isSiteUrlMatched(siteUrl)) {
+            clickCount++;
+          }
+        });
+        document.addEventListener("keydown", function (event) {
+          if (isActive && isSiteUrlMatched(siteUrl)) {
+            clickCount++;
+          }
+        });
       }
-      console.log("total Point is " + totalPoint);
-
-      document.addEventListener("click", (event) => {
-        if (isActive && isSiteUrlMatched(siteUrl)) {
-          clickCount++;
-        }
-      });
-      document.addEventListener("keydown", function (event) {
-        if (isActive && isSiteUrlMatched(siteUrl)) {
-          clickCount++;
-        }
-      });
-
     }
-
-    
-  }, 1000); 
+  }, 1000);
 }
 startTimer();
 

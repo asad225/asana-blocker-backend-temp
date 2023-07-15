@@ -1,0 +1,7 @@
+# Dependency directories
+/node_modules
+npm-debug.log
+yarn-error.log
+
+# Miscellaneous
+/.angular/cache 

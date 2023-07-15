@@ -1,20 +1,33 @@
 <div class="goals-automatic-wrapper button-container">
-  <div>
+  <div *ngIf="isUpdate==false">
     <button
       mat-raised-button
       class="LoginBtn login-btn-style"
       color="primary"
       type="submit"
+      (click)="addGoal()"
     >
       Add
     </button>
   </div>
-  <div>
+  <div *ngIf="isUpdate==true">
     <button
       mat-raised-button
       class="LoginBtn login-btn-style"
       color="primary"
       type="submit"
+      (click)="updateGoal()"
+    >
+      Update
+    </button>
+  </div>
+  <div *ngIf="isUpdate==true">
+    <button
+      mat-raised-button
+      class="LoginBtn login-btn-style"
+      color="primary"
+      type="submit"
+      (click)="resetGoal()"
     >
       Reset
     </button>
@@ -24,38 +37,12 @@
 
 <div class="add-website">
   <mat-form-field class="website-input">
-    <mat-label>Add Time</mat-label>
-    <input #websiteInput matInput placeholder="Add Time" />
+    <mat-label>Add Time In Minutes</mat-label>
+    <input [(ngModel)]="Goal.total_time_count" matInput placeholder="Add Time In Minutes" />
   </mat-form-field>
 </div>
 
 <mat-divider></mat-divider>
-
-<div class="action-difficulty-level">
-  <!-- <h4>Choose action difficulty level</h4>
-    <div>
-        <mat-radio-group aria-label="Select an option" [value]="actionLevelControl.value" [formControl]="actionLevelControl" (change)="handleActionLevelChange()">
-            <mat-radio-button value="easy">Easy</mat-radio-button>
-            <mat-radio-button value="medium">Medium</mat-radio-button>
-            <mat-radio-button value="hard">Hard</mat-radio-button>
-        </mat-radio-group>
-    </div> -->
-
-  <div class="difficulty-container">
-      <label for="difficulty">Difficulty:</label>
-      <select name="difficulty" id="difficulty">
-        <option value="easy">easy</option>
-        <option value="medium">medium</option>
-        <option value="hard">hard</option>
-      </select>
-  </div>
-</div>
-<mat-divider></mat-divider>
-
-<!-- <div class="add-time">
-  <label>Add Time</label>
-  <input value="00:00:00" type="time" step="1" [formControl]="spendingTime" class="input_spendTime" (change)="time($event)">
-</div> -->
 
 <div class="add-website">
   <mat-form-field class="website-input">
@@ -65,13 +52,13 @@
       matInput
       placeholder="Ex. Google.com"
       [formControl]="input"
-      (keyup.enter)="add(input.value || '')"
+      (keyup.enter)="addWebsite(input.value || '')"
     />
   </mat-form-field>
 
   <button
     class="add-btn"
-    (click)="add(input.value || '')"
+    (click)="addWebsite(input.value || '')"
     mat-raised-button
     color="primary"
   >
@@ -79,35 +66,15 @@
   </button>
 </div>
 <div class="websites-list">
-  <!-- <table mat-table [dataSource]="dd" class="mat-elevation-z8"> -->
-  <!-- <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef class="name-row"> Name </th>
-          <td mat-cell *matCellDef="let element" [class.wild-site]="element.name === '*'"> {{element.name}} </td>
-        </ng-container>
-        
-        <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef> Actions </th>
-          <td mat-cell *matCellDef="let element; let i = index" [class.wild-site-actions]="element.name === '*'"> <button (click)="remove(i)" mat-button color="warn">
-            <mat-icon class="delete-btn">
-              delete
-            </mat-icon>
-          </button> </td>
-        </ng-container>
-      
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;" [class.wild-site]="row.name === '*'"></tr>
-      </table> -->
-  <!-- <div *ngFor ="let sites of _getGoalSiteList">{{sites.site}}</div> -->
-
   <table>
     <tr>
       <th>Name</th>
       <th>Actions</th>
     </tr>
-    <tr *ngFor="let sites of _getGoalSiteList">
-      <td>{{ sites.site }}</td>
+    <tr *ngFor="let website of Goal.domain">
+      <td>{{ website}}</td>
       <td>
-        <button mat-button color="warn" (click)="deleteSite(sites._id)">
+        <button mat-button color="warn" (click)="deleteSite(website)">
           <mat-icon class="delete-btn"> delete </mat-icon>
         </button>
       </td>

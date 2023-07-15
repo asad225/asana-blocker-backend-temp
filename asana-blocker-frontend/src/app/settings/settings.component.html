@@ -66,3 +66,24 @@
         </div>
     </mat-card-content>
 </mat-card>
+
+<mat-card>
+    <mat-card-content>
+        <div class="mb-3">
+            <h3 class="mat-subtitle-1">Goal Automatic Difficulty</h3>
+        </div>
+        <div>
+            <mat-form-field>
+                <mat-label>Difficulty</mat-label>
+                <mat-select [formControl]="goalDifficulty">
+                  <mat-option *ngFor="let method of difficultyLevels" [value]="method.id">
+                    {{method.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+        </div>
+        <div>
+            <button class="rewards-save" mat-raised-button color="primary" (click)="saveGoalDifficulty()">Save</button>
+        </div>
+    </mat-card-content>
+</mat-card>

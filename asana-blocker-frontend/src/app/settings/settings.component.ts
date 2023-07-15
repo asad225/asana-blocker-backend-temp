@@ -6,6 +6,7 @@ import { debounce, timer } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { TitleService } from '../services/title.service';
 import { SettingService } from '../services/setting.service';
+import { SitesApiService } from '../services/sites-api.service';
 
 @Component({
   selector: 'ab-settings',
@@ -20,6 +21,13 @@ export class SettingsComponent implements OnInit {
     Validators.required,
     Validators.min(0.000000001)
   ]);
+  goalDifficulty = new FormControl('medium');
+  difficultyLevels = [
+    {id: 'easy', name: 'Easy'},
+    {id: 'medium', name: 'Medium'},
+    {id: 'hard', name: 'Hard'}
+
+  ];
   data: any = [];
   randomTextOfLength: string = '';
   rewardMethod = new FormControl('automatic');
@@ -34,7 +42,8 @@ export class SettingsComponent implements OnInit {
     private _stor: StorageService,
     private _snackBar: MatSnackBar,
     private _cdr: ChangeDetectorRef,
-    private _titleService: TitleService
+    private _titleService: TitleService,
+    private _siteApiServices:SitesApiService
   ) {}
 
   ngOnInit(): void {
@@ -45,6 +54,12 @@ export class SettingsComponent implements OnInit {
     this.initAsanaTaskCheck();
     this.initRewardMethod();
     this._cdr.detectChanges();
+    chrome.storage.local.get('goal')
+  .then(result => {
+    if (result['goal'] && result['goal'][0]._id !== " ") {
+      this.goalDifficulty.setValue(result['goal'][0].difficulty)
+    }
+  })
   }
   
   async initRewardMethod(): Promise<void> {
@@ -130,6 +145,39 @@ export class SettingsComponent implements OnInit {
     }
     this._cdr.detectChanges();
   }
+
+  saveGoalDifficulty(){
+    chrome.storage.local.get('goal')
+  .then(result => {
+    if (result['goal'] && result['goal'][0]._id !== " ") {
+      this._siteApiServices.updateGoal(result['goal'][0]._id,{difficulty:this.goalDifficulty.value}).subscribe((res:any)=>{
+        if(res && res.msg === "Goal updated successfully"){
+          this._siteApiServices.getGoal(result['goal'][0].userId).subscribe((res:any)=>{
+            if(res.msg=='Goal Not Found!'){
+              const goal=[{
+                _id:" ",
+                userId:" ",
+                difficulty:'medium',
+                domain:[],
+                total_time_spent:0
+              }]
+              chrome.storage.local.set({ goal:goal });
+            }else{
+              const goal = res.goal;
+            chrome.storage.local.set({ goal:goal });
+            }
+            
+            
+          })
+        }
+      });  
+    }
+  })
+  .catch(error => {
+    console.error(error);
+  });
+  }
+  
 
   generateRandomText(): void {
     this.randomTextOfLength = this.randomTextStringLength.value ? Randoms.getRandomString(this.randomTextStringLength.value) : ''

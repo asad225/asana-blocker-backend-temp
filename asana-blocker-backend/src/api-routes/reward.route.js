@@ -15,7 +15,8 @@ import {
   deleteBlockSite,
   deleteGoalById,
   findIsGoalCompleted,
-  findGoalByUserId
+  findGoalByUserId,
+  updateGoal
 
 } from "../api/reward.js";
 import { ValidationErrors } from "../helper/validationMiddleware.js";
@@ -67,7 +68,7 @@ routes.get(
 );
 // ----------------------------Goal By UserId-----------------------------------------------------------------------
 routes.get(
-  "/getGoalUserId",
+  "/getGoalUserId/:userId",
   [
     check("userId")
       .not()
@@ -92,6 +93,17 @@ routes.put(
   ],
   ValidationErrors,
   updateSpendingTime
+);
+routes.put(
+  '/goal/updateGoal/:goalId',
+  [
+    check('goalId')
+      .not()
+      .isEmpty()
+      .withMessage('Please add goal id')
+  ],
+  ValidationErrors,
+  updateGoal
 );
 
 // routes.get(
@@ -128,9 +140,7 @@ routes.post(
 
 // ---------------------------------------getProductiveSites---------------------------------------------------------------------
 routes.get( 
-  "/productive/sites/:userId",
-  [ check("userId").not().isEmpty().withMessage("User is required"),],
-  ValidationErrors,
+  "/productive/sites",
   getProductiveSites
 );
 

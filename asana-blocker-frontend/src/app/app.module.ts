@@ -39,9 +39,7 @@ import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { ProfileComponent } from './profile/profile.component';
 import { EditprofileComponent } from './profile/editprofile/editprofile.component';
-import { TimeTrackingService } from './time-tracking.service';
-
-
+import { SitesApiService } from './services/sites-api.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -85,10 +83,9 @@ import { TimeTrackingService } from './time-tracking.service';
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MatMenuModule,
-    
+    MatMenuModule
   ],
-  providers: [TimeTrackingService],
+  providers: [SitesApiService,LoginComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

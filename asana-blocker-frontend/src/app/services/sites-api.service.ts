@@ -24,9 +24,30 @@ export class SitesApiService {
     return this.http.delete(this.apiUrl + `/goodSite/${siteId}`);
   }
 
+  updateSpendingTime(goalId:any,data:any): Observable<any>{
+    //body should contain updated spending time
+    return this.http.put(this.apiUrl + `/goal/update/${goalId}`,data);
+  }
+  updateGoal(goalId:any,data:any): Observable<any>{
+    //body should contain updated spending time
+    return this.http.put(this.apiUrl + `/goal/updateGoal/${goalId}`,data);
+  }
+  deleteGoal(goalId:any):Observable<any>{
+    //body should contain goal id to be deleted
+    return this.http.delete(this.apiUrl + `/deleteGoal/${goalId}`,);
+  }
+  addGoal(data:any):Observable<any>{
+    //body should contain complete goal object
+    return this.http.post(this.apiUrl + `/addGoals`,data);
+  }
   addBlockSite(data:any): Observable<any>{
     return this.http.post(this.apiUrl + '/block/site', data);
   }
+  getGoal(userId:any):Observable<any>{
+    
+    return this.http.get(this.apiUrl+`/getGoalUserId/${userId}`)
+  }
+  
 
   getBlockSite(userId:any): Observable<any>{
     return this.http.get(this.apiUrl + `/block/sites/${userId}`);
